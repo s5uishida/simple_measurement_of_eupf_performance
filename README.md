@@ -45,7 +45,7 @@ The following minimum configuration was set as a condition.
 
 The built simulation environment is as follows.
 
-<img src="./images/network-overview.png" title="./images/network-overview.png" width=800px></img>
+<img src="./images/network-overview.png" title="./images/network-overview.png" width=700px></img>
 
 The OMEC pfcpsim, TRex and eUPF used are as follows.
 - OMEC pfcpsim v1.2.0 (2024.10.24) - https://github.com/omec-project/pfcpsim
