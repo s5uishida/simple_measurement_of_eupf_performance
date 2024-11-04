@@ -190,7 +190,7 @@ Then, open another console and send PFCP messages from `client`(pfcpctl) to `ser
 2. Use associate command to connect to remote peer set in the previous configuration step and perform an association. The other parameters are default values.
 
    ```
-   # ./client service associate -s localhost
+   # ./client service associate
    2024-11-03T21:49:21.671+0900    INFO    commands/services.go:64 Association established {"component": "LIB", "category": "Pfcpsim"}
    ```
 3. Send a PFCP Session Establishment Request with the UE pool address=`10.45.0.0/24` and QFI=`5`. The other parameters are default values.
