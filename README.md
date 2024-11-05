@@ -71,9 +71,9 @@ The network interfaces of each VM are as follows.
 | | ens21 | VirtIO | vmbr6 | 192.168.16.152/24 | N6 ***(Under DPDK by uio_pci_generic,<br>default GW for VM-DUT)*** |
 | VM-DUT | ~~ens18~~ | ~~VirtIO~~ | ~~vmbr1~~ | ~~10.0.0.151/24~~ | ~~(NAPT NW)~~ ***down*** |
 | | ens19 | VirtIO | mgbr0 | 192.168.0.151/24 | (Mgmt NW) |
-| | ens20 | VirtIO | vmbr3 | 192.168.13.151/24 | N3 |
+| | ens20 | VirtIO | vmbr3 | 192.168.13.151/24 | N3 ***(XDP)*** |
 | | ens21 | VirtIO | vmbr4 | 192.168.14.151/24 | N4 |
-| | ens22 | VirtIO | vmbr6 | 192.168.16.151/24 | N6 |
+| | ens22 | VirtIO | vmbr6 | 192.168.16.151/24 | N6 ***(XDP)*** |
 
 Linux Bridges of Proxmox VE are as follows.
 | Linux Bridge | Network CIDR | Interface |
