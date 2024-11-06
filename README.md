@@ -1,5 +1,5 @@
 # Simple Measurement of eUPF(eBPF/XDP UPF) Performance
-This describes simple performance measurements of eUPF(eBPF/XDP UPF) by using the traffic generator [TRex](https://github.com/cisco-system-traffic-generator/trex-core) as the performance measurement tool and [OMEC pfcpsim](https://github.com/omec-project/pfcpsim) as the PFCP simulator.
+This describes simple performance measurements of eUPF(eBPF/XDP UPF) by using the traffic generator [TRex](https://github.com/cisco-system-traffic-generator/trex-core) as the performance measurement tool and [Aether pfcpsim](https://github.com/omec-project/pfcpsim) as the PFCP simulator.
 This was measured on the VMs on Proxmox VE.
 For other measurement results, please see [Performance Measurement](https://github.com/s5uishida/sample_config_misc_for_mobile_network#performance_measurement).
 
@@ -23,10 +23,10 @@ And this is a very simple measurement, and according to [this comment](https://g
 - [Network settings of TRex and eUPF](#network_settings)
   - [Network settings of TRex](#network_settings_trex)
   - [Network settings of eUPF](#network_settings_eupf)
-- [Build OMEC pfcpsim, TRex and eUPF](#build)
-- [Run OMEC pfcpsim, TRex and eUPF](#run)
+- [Build Aether pfcpsim, TRex and eUPF](#build)
+- [Run Aether pfcpsim, TRex and eUPF](#run)
   - [Run eUPF](#run_eupf)
-  - [Run OMEC pfcpsim](#run_pfcpsim)
+  - [Run Aether pfcpsim](#run_pfcpsim)
   - [Run TRex](#run_trex)
 - [Results](#results)
 - [Changelog (summary)](#changelog)
@@ -37,25 +37,25 @@ And this is a very simple measurement, and according to [this comment](https://g
 
 ## Simple Overview of eUPF Performance Measurements
 
-I will easily measure the performance of eUPF by using TRex as the traffic generator and OMEC pfcpsim as the PFCP simulator.
+I will easily measure the performance of eUPF by using TRex as the traffic generator and Aether pfcpsim as the PFCP simulator.
 **Note that this configuration is implemented with Proxmox VE VMs.**
 
 The following minimum configuration was set as a condition.
-- One OMEC pfcpsim (as a part of SMF), TRex (as RAN&UE) and eUPF
+- One Aether pfcpsim (as a part of SMF), TRex (as RAN&UE) and eUPF
 
 The built simulation environment is as follows.
 
 <img src="./images/network-overview.png" title="./images/network-overview.png" width=700px></img>
 
-The OMEC pfcpsim, TRex and eUPF used are as follows.
-- OMEC pfcpsim v1.2.0 (2024.10.24) - https://github.com/omec-project/pfcpsim
+The Aether pfcpsim, TRex and eUPF used are as follows.
+- Aether pfcpsim v1.2.0 (2024.10.24) - https://github.com/omec-project/pfcpsim
 - TRex v3.06 (2024.09.17) - https://github.com/cisco-system-traffic-generator/trex-core
 - eUPF v0.6.4 (2024.05.01) - https://github.com/edgecomllc/eupf
 
 Each VMs are as follows.  
 | VM | SW & Role | IP address | OS | CPU | Mem | HDD |
 | --- | --- | --- | --- | --- | --- | --- |
-| VM1 | OMEC pfcpsim<br>PFCP simulator | 192.168.0.111/24 | Ubuntu 24.04 | 1 | 1GB | 10GB |
+| VM1 | Aether pfcpsim<br>PFCP simulator | 192.168.0.111/24 | Ubuntu 24.04 | 1 | 1GB | 10GB |
 | VM-TG | TRex<br>Traffic Generator | 192.168.0.131/24 | Ubuntu 22.04 | 3 | 8GB | 20GB |
 | VM-DUT | eUPF DUT<br>(Device Under Test) | 192.168.0.151/24 | Ubuntu 24.04 | 2 | 8GB | 20GB |
 
@@ -149,18 +149,18 @@ Next, down the interface `ens18` of the VM-DUT and set the VM-TG IP address to d
 
 <a id="build"></a>
 
-## Build OMEC pfcpsim, TRex and eUPF
+## Build Aether pfcpsim, TRex and eUPF
 
-Please refer to the following for building OMEC pfcpsim, TRex and eUPF respectively.
-- OMEC pfcpsim v1.2.0 (2024.10.24) - https://github.com/omec-project/pfcpsim
+Please refer to the following for building Aether pfcpsim, TRex and eUPF respectively.
+- Aether pfcpsim v1.2.0 (2024.10.24) - https://github.com/omec-project/pfcpsim
 - TRex v3.06 (2024.09.17) - https://github.com/s5uishida/install_trex
 - eUPF v0.6.4 (2024.05.01) - https://github.com/s5uishida/install_eupf
 
 <a id="run"></a>
 
-## Run OMEC pfcpsim, TRex and eUPF
+## Run Aether pfcpsim, TRex and eUPF
 
-First run eUPF, then OMEC pfcpsim and TRex last.
+First run eUPF, then Aether pfcpsim and TRex last.
 
 <a id="run_eupf"></a>
 
@@ -170,7 +170,7 @@ See [this](https://github.com/s5uishida/install_eupf#run).
 
 <a id="run_pfcpsim"></a>
 
-### Run OMEC pfcpsim
+### Run Aether pfcpsim
 
 First, start `server`(pfcpsim).
 ```
@@ -277,7 +277,7 @@ I would appreciate it if you could use this as a reference as a configuration ex
 
 ---
 
-I would like to thank all the excellent developers and contributors who developed OMEC pfcpsim, TRex, eUPF, these great systems and tools.
+I would like to thank all the excellent developers and contributors who developed Aether pfcpsim, TRex, eUPF, these great systems and tools.
 
 <a id="changelog"></a>
 
