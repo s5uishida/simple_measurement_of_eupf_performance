@@ -1,5 +1,5 @@
 # Simple Measurement of eUPF(eBPF/XDP UPF) Performance
-This describes simple performance measurements of eUPF(eBPF/XDP UPF) by using the traffic generator [TRex](https://github.com/cisco-system-traffic-generator/trex-core) as the performance measurement tool and [Aether pfcpsim](https://github.com/omec-project/pfcpsim) as the PFCP simulator.
+This describes simple performance measurements of [eUPF](https://github.com/edgecomllc/eupf)(eBPF/XDP UPF) by using the traffic generator [TRex](https://github.com/cisco-system-traffic-generator/trex-core) as the performance measurement tool and [Aether pfcpsim](https://github.com/omec-project/pfcpsim) as the PFCP simulator.
 This was measured on the VMs on Proxmox VE.
 For other measurement results, please see [Performance Measurement](https://github.com/s5uishida/sample_config_misc_for_mobile_network#performance_measurement).
 
