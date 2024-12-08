@@ -50,7 +50,7 @@ The built simulation environment is as follows.
 The Aether pfcpsim, TRex and eUPF used are as follows.
 - Aether pfcpsim v1.2.0 (2024.10.24) - https://github.com/omec-project/pfcpsim
 - TRex v3.06 (2024.09.17) - https://github.com/cisco-system-traffic-generator/trex-core
-- eUPF v0.6.4 (2024.05.01) - https://github.com/edgecomllc/eupf
+- eUPF v0.6.4 (2024.11.16) - https://github.com/edgecomllc/eupf
 
 Each VMs are as follows.  
 | VM | SW & Role | IP address | OS | CPU | Mem | HDD |
@@ -95,7 +95,7 @@ UE IP address and TEID are as follows.
 
 Please refer to the following for building TRex and eUPF respectively.
 - TRex v3.06 (2024.09.17) - https://github.com/s5uishida/install_trex
-- eUPF v0.6.4 (2024.05.01) - https://github.com/s5uishida/install_eupf
+- eUPF v0.6.4 (2024.11.16) - https://github.com/s5uishida/install_eupf
 
 <a id="changes_trex"></a>
 
@@ -117,8 +117,20 @@ There is no change.
 
 See [here](https://github.com/s5uishida/install_eupf#create-configuration-file) for the original file.
 
-- `eupf/config.yml`  
-There is no change.
+- `eupf/config.yml`
+```diff
+--- config.yml.orig     2024-11-17 07:52:06.775377399 +0900
++++ config.yml  2024-12-08 08:53:39.666489083 +0900
+@@ -16,7 +16,7 @@
+ resize_ebpf_maps: false
+ heartbeat_retries: 3
+ heartbeat_interval: 5
+-heartbeat_timeout: 5
++heartbeat_timeout: 200
+ logging_level: info
+ feature_ueip: true
+ feature_ftup: true
+```
 
 <a id="network_settings"></a>
 
@@ -154,7 +166,7 @@ Next, down the interface `ens18` of the VM-DUT and set the VM-TG IP address to d
 Please refer to the following for building Aether pfcpsim, TRex and eUPF respectively.
 - Aether pfcpsim v1.2.0 (2024.10.24) - https://github.com/omec-project/pfcpsim
 - TRex v3.06 (2024.09.17) - https://github.com/s5uishida/install_trex
-- eUPF v0.6.4 (2024.05.01) - https://github.com/s5uishida/install_eupf
+- eUPF v0.6.4 (2024.11.16) - https://github.com/s5uishida/install_eupf
 
 <a id="run"></a>
 
@@ -176,7 +188,7 @@ First, start `server`(pfcpsim).
 ```
 # cd pfcpsim
 # ./server -i ens20
-2024-11-03T21:48:42.376+0900    INFO    pfcpsim/main.go:41      server listening on port 54321  {"component": "LIB", "category": "Pfcpsim"}
+2024-12-08T09:10:29.809+0900    INFO    pfcpsim/main.go:41      server listening on port 54321  {"component": "LIB", "category": "Pfcpsim"}
 ```
 Then, open another console and send PFCP messages from `client`(pfcpctl) to `server`(pfcpsim).
 
@@ -185,30 +197,30 @@ Then, open another console and send PFCP messages from `client`(pfcpctl) to `ser
    ```
    # cd pfcpsim
    # ./client service configure -r 192.168.14.151 -n 192.168.13.151
-   2024-11-03T21:49:21.666+0900    INFO    commands/services.go:49 Server is configured. Remote peer address: 192.168.14.151, N3 interface address: 192.168.13.151         {"component": "LIB", "category": "Pfcpsim"}
+   2024-12-08T09:10:35.803+0900    INFO    commands/services.go:49 Server is configured. Remote peer address: 192.168.14.151, N3 interface address: 192.168.13.151         {"component": "LIB", "category": "Pfcpsim"}
    ```
 2. Use associate command to connect to remote peer set in the previous configuration step and perform an association. The other parameters are default values.
 
    ```
    # ./client service associate
-   2024-11-03T21:49:21.671+0900    INFO    commands/services.go:64 Association established {"component": "LIB", "category": "Pfcpsim"}
+   2024-12-08T09:10:35.809+0900    INFO    commands/services.go:64 Association established {"component": "LIB", "category": "Pfcpsim"}
    ```
-3. Send a PFCP Session Establishment Request with the UE pool address=`10.45.0.0/24` and QFI=`5`. The other parameters are default values.
+3. Send a PFCP Session Establishment Request with the UE pool address=`10.45.0.0/24` and QFI=`1`. The other parameters are default values.
    ```
-   # ./client session create -u 10.45.0.0/24 -q 5
-   2024-11-03T21:49:21.677+0900    INFO    commands/sessions.go:94 1 sessions were established using 1 as baseID   {"component": "LIB", "category": "Pfcpsim"}
+   # ./client session create -u 10.45.0.0/24 -q 1 -g 192.168.13.131
+   2024-12-08T09:10:35.815+0900    INFO    commands/sessions.go:94 1 sessions were established using 1 as baseID   {"component": "LIB", "category": "Pfcpsim"}
    ```
-4. Send a PFCP Session Modification Request with the UE pool address=`10.45.0.0/24`, QFI=`5`, the buffer flag=true of the downlink FAR, and true of downlink FARs notifying CP. The other parameters are default values.
+4. Send a PFCP Session Modification Request with the UE pool address=`10.45.0.0/24`, QFI=`1`, the buffer flag=true of the downlink FAR, and true of downlink FARs notifying CP. The other parameters are default values.
    ```
-   # ./client session modify -u 10.45.0.0/24 -q 5 -b -n
-   2024-11-03T21:49:21.682+0900    INFO    commands/sessions.go:119        1 sessions were modified        {"component": "LIB", "category": "Pfcpsim"}
+   # ./client session modify -u 10.45.0.0/24 -q 1 -g 192.168.13.131 -b -n
+   2024-12-08T09:10:35.820+0900    INFO    commands/sessions.go:119        1 sessions were modified        {"component": "LIB", "category": "Pfcpsim"}
    ```
 As a result of these command operations, the following logs will be output to `server`.
 ```
-2024-11-03T21:49:21.671+0900    INFO    pfcpsim/server.go:101   Association established {"component": "LIB", "category": "Pfcpsim"}
-2024-11-03T21:49:21.676+0900    INFO    pfcpsim/server.go:188   successfully parsed application filter. SDF Filter: permit out ip from any to assigned  {"component": "LIB", "category": "Pfcpsim"}
-2024-11-03T21:49:21.677+0900    INFO    pfcpsim/server.go:305   1 sessions were established using 1 as baseID   {"component": "LIB", "category": "Pfcpsim"}
-2024-11-03T21:49:21.682+0900    INFO    pfcpsim/server.go:396   1 sessions were modified        {"component": "LIB", "category": "Pfcpsim"}
+2024-12-08T09:10:35.808+0900    INFO    pfcpsim/server.go:101   Association established {"component": "LIB", "category": "Pfcpsim"}
+2024-12-08T09:10:35.813+0900    INFO    pfcpsim/server.go:188   successfully parsed application filter. SDF Filter: permit out ip from any to assigned  {"component": "LIB", "category": "Pfcpsim"}
+2024-12-08T09:10:35.814+0900    INFO    pfcpsim/server.go:305   1 sessions were established using 1 as baseID   {"component": "LIB", "category": "Pfcpsim"}
+2024-12-08T09:10:35.819+0900    INFO    pfcpsim/server.go:396   1 sessions were modified        {"component": "LIB", "category": "Pfcpsim"}
 ```
 
 <a id="run_trex"></a>
@@ -221,16 +233,16 @@ Please refer to [this](https://github.com/s5uishida/install_trex?tab=readme-ov-f
 
 ## Results
 
-The measurements below show that 481.94 Mbps of 1.77 Gbps was dropped and 1.29 Gbps was received.
+The measurements below show that 624.58 Mbps of 1.79 Gbps was dropped and 1.16 Gbps was received.
 ```
 Global Statistics
 
-connection   : localhost, Port 4501                       total_tx_L2  : 1.77 Gbps  
-version      : STL @ v3.06                                total_tx_L1  : 1.8 Gbps   
-cpu_util.    : 1.24% @ 1 cores (1 per dual port)          total_rx     : 1.29 Gbps  
-rx_cpu_util. : 0.23% / 111.63 Kpps                        total_pps    : 149.57 Kpps
-async_util.  : 0% / 9.35 bps                              drop_rate    : 481.94 Mbps
-total_cps.   : 0 cps                                      queue_full   : 14,021 pkts
+connection   : localhost, Port 4501                       total_tx_L2  : 1.79 Gbps                      
+version      : STL @ v3.06                                total_tx_L1  : 1.81 Gbps                      
+cpu_util.    : 1.55% @ 1 cores (1 per dual port)          total_rx     : 1.16 Gbps                      
+rx_cpu_util. : 0.25% / 100.69 Kpps                        total_pps    : 150.12 Kpps                    
+async_util.  : 0% / 13.78 bps                             drop_rate    : 624.58 Mbps                    
+total_cps.   : 0 cps                                      queue_full   : 5,952 pkts                     
 
 Port Statistics
 
@@ -240,24 +252,24 @@ owner      |              root |              root |
 link       |                UP |                UP |                   
 state      |      TRANSMITTING |              IDLE |                   
 speed      |          200 Gb/s |          200 Gb/s |                   
-CPU util.  |             1.24% |              0.0% |                   
+CPU util.  |             1.55% |              0.0% |                   
 --         |                   |                   |                   
-Tx bps L2  |         1.77 Gbps |             0 bps |         1.77 Gbps 
-Tx bps L1  |          1.8 Gbps |             0 bps |          1.8 Gbps 
-Tx pps     |       149.57 Kpps |             0 pps |       149.57 Kpps 
-Line Util. |             0.9 % |               0 % |                   
+Tx bps L2  |         1.79 Gbps |             0 bps |         1.79 Gbps 
+Tx bps L1  |         1.81 Gbps |             0 bps |         1.81 Gbps 
+Tx pps     |       150.12 Kpps |             0 pps |       150.12 Kpps 
+Line Util. |            0.91 % |               0 % |                   
 ---        |                   |                   |                   
-Rx bps     |             0 bps |         1.29 Gbps |         1.29 Gbps 
-Rx pps     |             0 pps |       111.63 Kpps |       111.63 Kpps 
+Rx bps     |             0 bps |         1.16 Gbps |         1.16 Gbps 
+Rx pps     |             0 pps |       100.69 Kpps |       100.69 Kpps 
 ----       |                   |                   |                   
-opackets   |           2069401 |                 0 |           2069401 
-ipackets   |                 0 |           1545552 |           1545552 
-obytes     |        3066852282 |                 0 |        3066852282 
-ibytes     |                 0 |        2234868192 |        2234868192 
-tx-pkts    |        2.07 Mpkts |            0 pkts |        2.07 Mpkts 
-rx-pkts    |            0 pkts |        1.55 Mpkts |        1.55 Mpkts 
-tx-bytes   |           3.07 GB |               0 B |           3.07 GB 
-rx-bytes   |               0 B |           2.23 GB |           2.23 GB 
+opackets   |           2076783 |                 0 |           2076783 
+ipackets   |                 0 |           1392496 |           1392496 
+obytes     |        3094406670 |                 0 |        3094406670 
+ibytes     |                 0 |        2013549216 |        2013549216 
+tx-pkts    |        2.08 Mpkts |            0 pkts |        2.08 Mpkts 
+rx-pkts    |            0 pkts |        1.39 Mpkts |        1.39 Mpkts 
+tx-bytes   |           3.09 GB |               0 B |           3.09 GB 
+rx-bytes   |               0 B |           2.01 GB |           2.01 GB 
 -----      |                   |                   |                   
 oerrors    |                 0 |                 0 |                 0 
 ierrors    |                 0 |                 0 |                 0 
@@ -283,4 +295,5 @@ I would like to thank all the excellent developers and contributors who develope
 
 ## Changelog (summary)
 
+- [2024.12.08] Updated eUPF to v0.6.4 (2024.11.16) and Scapy in TRex to v2.6.1 (2024.11.05).
 - [2024.11.03] Initial release.
