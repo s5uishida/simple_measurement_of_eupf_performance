@@ -50,6 +50,7 @@ The built simulation environment is as follows.
 The Aether pfcpsim, TRex and eUPF used are as follows.
 - Aether pfcpsim v1.2.0 (2024.10.24) - https://github.com/omec-project/pfcpsim
 - TRex v3.06 (2024.09.17) - https://github.com/cisco-system-traffic-generator/trex-core
+- Scapy v2.6.1 (2024.11.05) - https://github.com/secdev/scapy
 - eUPF v0.6.4 (2024.11.16) - https://github.com/edgecomllc/eupf
 
 Each VMs are as follows.  
